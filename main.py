@@ -3,6 +3,7 @@ from random import randint
 from turret import Turret
 from object import Object
 from bullet import Bullet
+from spaceship import Spaceship
 
 pg.init()
 window_size = (1200, 800)
@@ -11,7 +12,7 @@ pg.display.set_caption("Window")
 screen = pg.display.set_mode(window_size)
 background_color = (0, 0, 0)
 
-turret = Turret()
+spaceship = Spaceship()
 
 objects = [Object() for i in range(10)]
 for object in objects:
@@ -25,11 +26,12 @@ while True:
         if event.type == pg.QUIT:
             pg.quit()
             exit()
+        spaceship.interaction_with_player(event, screen_center)
 
     screen.fill(background_color)
 
-    turret.update(screen_center, window_size, objects, bullets)
-    turret.draw(screen, screen_center)
+    spaceship.update(screen_center, window_size, objects, bullets)
+    spaceship.draw(screen, screen_center)
 
     for obj in objects:
         obj.update(screen_center, window_size)
