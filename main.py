@@ -13,10 +13,10 @@ background_color = (0, 0, 0)
 
 spaceship = Spaceship()
 
-objects = [Object() for i in range(50)]
+objects = [Object() for i in range(10)]
 for object in objects:
     object.set_position(randint(0, 1000), randint(0, 1000))
-    object.set_speed(randint(-10, 10), randint(-10, 10))
+    object.set_speed(randint(-100, 100), randint(-100, 100))
 
 bullets = []
 particles = []

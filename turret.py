@@ -2,6 +2,7 @@ import pygame
 
 from projectile import Projectile
 from highexplosiveprojectile import HighExplosiveProjectile
+from missile import Missile
 from object import Object
 from utils import *
 from time import perf_counter
@@ -13,8 +14,8 @@ class Turret(Object):
         self.range = 10000
         self.direction = 0
         self.angle = 360
-        self.bullet_speed = 2000
-        self.frequency = 20
+        self.bullet_speed = 250
+        self.frequency = 2
 
         self.shoot_time = perf_counter()
         self.selected = None
@@ -39,4 +40,4 @@ class Turret(Object):
                 dy = enemy.y - self.y
                 speedX = self.bullet_speed / ((1 + (dy ** 2 / dx ** 2)) ** 0.5)
                 speedY = speedX * dy / dx
-                bullets.append(Projectile(self.pos(), [speedX * sign(dx), speedY * sign(dx)]))
+                bullets.append(Missile(self.pos(), [speedX * sign(dx), speedY * sign(dx)]))
