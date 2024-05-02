@@ -2,10 +2,11 @@ import pygame
 
 import utils
 from object import Object
+from particle import Particle
 from utils import *
 
 
-class Bullet(Object):
+class Projectile(Object):
     def __init__(self, pos, speed):
         super().__init__()
         self.speedX = speed[0]
@@ -17,10 +18,12 @@ class Bullet(Object):
         self.sizeX = 8
         self.sizeY = 8
 
+        self.damage = 5
+
         self.push_off_edge = False
         self.hitbox = False
 
-    def update(self, player_pos, screen_size, objects, screen):
+    def update(self, player_pos, screen_size, objects, screen, particles):
         old_pos = self.pos()
 
         super().update(player_pos, screen_size, screen)
@@ -38,6 +41,10 @@ class Bullet(Object):
             segments = [[object_angles[j], object_angles[(j + 1) % 4]] for j in range(4)]
             shooting_segment = utils.Segment(old_pos, self.pos())
             if any([line_segments_intersection(shooting_segment, Segment(*segments[j])) for j in range(4)]):
-                objects[i].hp -= 5
+                self.explode(objects, i, particles)
                 self.hp = -1
                 break
+
+    def explode(self, objects, index, particles):
+        objects[index].hp -= self.damage
+        particles.append(Particle(self.pos(), (255, 50, 0), 5, 0.3))
