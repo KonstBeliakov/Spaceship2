@@ -1,9 +1,10 @@
 import pygame
+from object import Object
 from turret import *
 from utils import *
 
 
-class Spaceship():
+class Spaceship(Object):
     def __init__(self):
         self.grid_sizeX, self.grid_sizeY = 5, 7
         self.detail = [[None] * self.grid_sizeY for _ in range(self.grid_sizeX)]
@@ -17,15 +18,16 @@ class Spaceship():
             if 0 <= x < self.grid_sizeX and 0 <= y < self.grid_sizeY:
                 self.detail[x][y] = Turret()
                 self.detail[x][y].set_position(x * self.detail_size, y * self.detail_size)
+            print('click')
 
-    def update(self, player_pos, screen_size, enemies, bullets):
+    def update(self, player_pos, screen_size, enemies, bullets, screen):
         for i in range(self.grid_sizeX):
             for j in range(self.grid_sizeY):
                 if self.detail[i][j] is not None:
                     if isinstance(self.detail[i][j], Turret):
-                        self.detail[i][j].update(player_pos, screen_size, enemies, bullets)
+                        self.detail[i][j].update(player_pos, screen_size, enemies, bullets, screen)
                     else:
-                        self.detail[i][j].update(player_pos, screen_size)
+                        self.detail[i][j].update(player_pos, screen_size, screen)
 
     def draw(self, screen, player_pos):
         for i in range(self.grid_sizeX):
